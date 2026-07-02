@@ -198,17 +198,17 @@ DB_NAME=nodejs
 
 SQL을 직접 문자열로 쓰는 대신, JavaScript 코드로 DB를 다루게 해주는 라이브러리. 타입 안정성과 자동완성이 생기고, SQL 문법 실수를 줄일 수 있어요.
 
-| | mysql (raw) | Drizzle (ORM) |
-|---|---|---|
-| 쿼리 방식 | SQL 문자열 직접 작성 | JS 코드로 작성 |
-| 타입 지원 | 없음 | TypeScript 완전 지원 |
-| 스키마 관리 | SQL로 직접 | 코드로 정의 후 마이그레이션 |
+|             | mysql (raw)          | Drizzle (ORM)               |
+| ----------- | -------------------- | --------------------------- |
+| 쿼리 방식   | SQL 문자열 직접 작성 | JS 코드로 작성              |
+| 타입 지원   | 없음                 | TypeScript 완전 지원        |
+| 스키마 관리 | SQL로 직접           | 코드로 정의 후 마이그레이션 |
 
 ### 설치
 
 ```bash
-npm install drizzle-orm mysql2
-npm install -D drizzle-kit
+npm install express nunjucks morgan drizzle-orm mysql2 chokidar
+npm install -D drizzle-kit nodemon
 ```
 
 > Drizzle은 내부적으로 `mysql2`를 드라이버로 사용해요. `mysql` 패키지와는 별개예요.
@@ -216,7 +216,13 @@ npm install -D drizzle-kit
 ### 스키마 정의 (`src/db/schema.ts`)
 
 ```ts
-import { int, mysqlTable, varchar, text, timestamp } from 'drizzle-orm/mysql-core';
+import {
+  int,
+  mysqlTable,
+  varchar,
+  text,
+  timestamp,
+} from 'drizzle-orm/mysql-core';
 
 export const users = mysqlTable('users', {
   id: int('id').autoincrement().primaryKey(),
@@ -229,10 +235,12 @@ export const users = mysqlTable('users', {
 
 export const comments = mysqlTable('comments', {
   id: int('id').autoincrement().primaryKey(),
-  commenter: int('commenter').notNull().references(() => users.id, {
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
-  }),
+  commenter: int('commenter')
+    .notNull()
+    .references(() => users.id, {
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    }),
   comment: varchar('comment', { length: 1000 }).notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 });
@@ -262,7 +270,9 @@ import { users } from './db/schema';
 import { eq } from 'drizzle-orm';
 
 // INSERT
-await db.insert(users).values({ name: 'wavy', email: 'wavy@gmail.com', age: 30 });
+await db
+  .insert(users)
+  .values({ name: 'wavy', email: 'wavy@gmail.com', age: 30 });
 
 // SELECT
 const all = await db.select().from(users);
@@ -299,4 +309,7 @@ npx drizzle-kit generate
 
 # DB에 적용
 npx drizzle-kit migrate
+
+# DB를 역방향으로 읽기
+npx drizzle-kit pull
 ```
