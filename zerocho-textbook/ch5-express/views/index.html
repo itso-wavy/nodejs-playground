@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+<!-- layout.html을 부모 템플릿으로 상속 -->
+
+{% block content %}
+<!-- 부모의 block content 자리에 이 내용을 채워넣음 -->
+<h1>{{foo}}</h1>
+<p>Welcome to {{foo}}</p>
+<nav>
+  <ul>
+    <li><a href="/main">GET /main</a></li>
+    <li><a href="/user">GET /user</a></li>
+    <li><a href="/user/123">GET /user/:id</a></li>
+    <li><a href="/upload">GET /upload (파일 업로드 폼)</a></li>
+  </ul>
+</nav>
+{% endblock %}
