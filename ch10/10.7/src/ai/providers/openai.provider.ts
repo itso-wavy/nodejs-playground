@@ -27,11 +27,11 @@ export class OpenAIProvider implements IAIProvider {
 
   async generateText(
     messages: AIMessage[],
-    options?: AIGenerateOptions,
+    options?: AIGenerateOptions
   ): Promise<AIResponse> {
     const { text } = await generateText({
       model: this.openai(this.model),
-      messages: messages.map((msg) => ({
+      messages: messages.map(msg => ({
         role: msg.role,
         content: msg.content,
       })),
@@ -48,11 +48,11 @@ export class OpenAIProvider implements IAIProvider {
 
   async *streamText(
     messages: AIMessage[],
-    options?: AIGenerateOptions,
+    options?: AIGenerateOptions
   ): AsyncIterable<string> {
     const { textStream } = streamText({
       model: this.openai(this.model),
-      messages: messages.map((msg) => ({
+      messages: messages.map(msg => ({
         role: msg.role,
         content: msg.content,
       })),
