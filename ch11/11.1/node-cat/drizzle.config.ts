@@ -5,10 +5,10 @@ export default defineConfig({
   schema: './src/drizzle/schema.ts',
   out: './src/drizzle',
   dbCredentials: {
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
+    host: process.env.DB_HOST ?? 'localhost',
+    port: Number(process.env.DB_PORT ?? 3306),
+    user: process.env.DB_USER ?? 'root',
     password: process.env.DB_PASSWORD,
-    database: 'nodebird',
+    database: process.env.DB_NAME ?? 'nodebird',
   },
 });
