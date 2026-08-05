@@ -76,7 +76,7 @@ async function bootstrap() {
   };
   if (process.env.NODE_ENV === 'production') {
     sessionOption.proxy = true;
-    // sessionOption.cookie.secure = true;
+    sessionOption.cookie!.secure = true;
   }
   const sessionMiddleware = session(sessionOption);
 
