@@ -1,4 +1,12 @@
-import { Module, NestModule, MiddlewareConsumer, RequestMethod, OnModuleInit, OnApplicationBootstrap, ValidationPipe } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+  OnModuleInit,
+  OnApplicationBootstrap,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -38,20 +46,20 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     }),
     DrizzleModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {  
+      useFactory: (configService: ConfigService) => {
         return {
           mysql: {
-            user: "root",
+            user: 'root',
             password: configService.get<string>('DB_PASSWORD'),
-            host: "localhost",
+            host: 'localhost',
             port: 3306,
-            database: "nodebird",
+            database: 'nodebird',
             connectionLimit: 10,
           },
           config: {
             logger: true,
             schema: { ...schema, ...relations },
-            mode: "default"
+            mode: 'default',
           },
         };
       },
@@ -68,7 +76,9 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
 })
-export class AppModule implements NestModule, OnModuleInit, OnApplicationBootstrap {
+export class AppModule
+  implements NestModule, OnModuleInit, OnApplicationBootstrap
+{
   onModuleInit() {
     console.log('AppModule init');
   }
