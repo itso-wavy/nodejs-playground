@@ -41,11 +41,11 @@ import { RedisModule } from './redis/redis.module';
       useFactory: (configService: ConfigService) => {  
         return {
           mysql: {
-            user: "root",
+            user: configService.get<string>('DB_USER') ?? 'root',
             password: configService.get<string>('DB_PASSWORD'),
-            host: "localhost",
-            port: 3306,
-            database: "nodebird",
+            host: configService.get<string>('DB_HOST') ?? 'localhost',
+            port: configService.get<number>('DB_PORT') ?? 3306,
+            database: configService.get<string>('DB_NAME') ?? 'nodebird',
             connectionLimit: 10,
           },
           config: {
