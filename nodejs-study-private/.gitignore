@@ -1,0 +1,20 @@
+node_modules
+command.md
+# Local credentials and generated runtime artifacts
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.p12
+*.pfx
+*credentials*.json
+*service-account*.json
+.omx/
+.playwright-mcp/
+.venv/
+__pycache__/
+zerocho-textbook/ch8-ts/controllers/*.d.ts
+zerocho-textbook/ch8-ts/middlewares/*.d.ts
+zerocho-textbook/ch8-ts/passport/*.d.ts
+zerocho-textbook/ch8-ts/routes/*.d.ts
